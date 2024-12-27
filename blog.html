@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Skillvio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">Skillvio</a>
+            
+            <div class="navbar-nav">
+                <a href="index.html" class="nav-link">Ana Sayfa</a>
+                <a href="jobs.html" class="nav-link">İş İlanları</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="education.html" class="nav-link">Eğitimler</a>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="auth-buttons">
+                <button class="btn btn-outline" onclick="openModal('loginModal')">Giriş Yap</button>
+                <button class="btn btn-primary" onclick="openModal('registerModal')">Üye Ol</button>
+            </div>
+
+            <!-- User Menu (Hidden by default) -->
+            <div class="user-menu">
+                <button class="user-button">
+                    <i class="fas fa-user"></i>
+                    <span class="user-name"></span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="user-menu-items">
+                    <a href="profile.html" class="user-menu-item">
+                        <i class="fas fa-user"></i>
+                        Profil
+                    </a>
+                    <a href="#" class="user-menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Çıkış Yap
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-button">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Blog</h1>
+            <p>Kariyer ve teknoloji dünyasından en güncel içerikler</p>
+        </div>
+    </header>
+
+    <!-- Blog Grid -->
+    <section class="blog-section" style="padding: 4rem 0; background: var(--background);">
+        <div class="container">
+            <div class="posts-grid" id="blogGrid">
+                <!-- Blog posts will be dynamically added here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Skillvio</h3>
+                    <p>Kariyerinize yön veren platform</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Hızlı Bağlantılar</h3>
+                    <ul class="footer-links">
+                        <li><a href="jobs.html">İş İlanları</a></li>
+                        <li><a href="education.html">Eğitimler</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="#">Hakkımızda</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>İletişim</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@skillvio.com">info@skillvio.com</a></li>
+                        <li><a href="tel:+902121234567">+90 212 123 45 67</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Skillvio. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 class="modal-title">Giriş Yap</h2>
+                <p>Hesabınıza giriş yapın</p>
+            </div>
+            <form id="loginForm" onsubmit="login(event)">
+                <div class="form-group">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Şifre</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Giriş Yap</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Hesabınız yok mu? 
+                <a href="#" onclick="switchModal('loginModal', 'registerModal')">Üye Ol</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('registerModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 class="modal-title">Üye Ol</h2>
+                <p>Yeni bir hesap oluşturun</p>
+            </div>
+            <form id="registerForm" onsubmit="register(event)">
+                <div class="form-group">
+                    <label class="form-label">Ad Soyad</label>
+                    <input type="text" class="form-control" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Şifre</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Şifre Tekrar</label>
+                    <input type="password" class="form-control" name="passwordConfirm" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Üye Ol</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Zaten üye misiniz? 
+                <a href="#" onclick="switchModal('registerModal', 'loginModal')">Giriş Yap</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Blog posts data
+        const blogPosts = [
+            {
+                image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80',
+                category: 'Teknoloji',
+                title: '2025\'te Öne Çıkacak Yazılım Trendleri',
+                excerpt: 'Yapay zeka, blockchain ve diğer yeni teknolojilerin yazılım dünyasına etkileri...',
+                author: {
+                    name: 'Ahmet Yılmaz',
+                    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80'
+                },
+                date: '27 Aralık 2024',
+                link: 'blog-posts/2025-software-trends.html'
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80',
+                category: 'Kariyer',
+                title: 'Remote Çalışmanın Püf Noktaları',
+                excerpt: 'Uzaktan çalışma sürecinde verimli olmanın ve iş-yaşam dengesini korumanın yolları...',
+                author: {
+                    name: 'Zeynep Kaya',
+                    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80'
+                },
+                date: '26 Aralık 2024',
+                link: 'blog-posts/remote-work-tips.html'
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80',
+                category: 'Eğitim',
+                title: 'Yazılım Öğrenmenin En Etkili Yolları',
+                excerpt: 'Programlama dünyasına adım atmak isteyenler için kapsamlı bir rehber...',
+                author: {
+                    name: 'Mehmet Demir',
+                    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80'
+                },
+                date: '25 Aralık 2024',
+                link: 'blog-posts/learning-programming.html'
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80',
+                category: 'İş Dünyası',
+                title: 'Startup\'larda Çalışmanın Avantajları',
+                excerpt: 'Yeni mezunlar için startup şirketlerinde çalışmanın kariyer gelişimine etkileri...',
+                author: {
+                    name: 'Ayşe Yıldız',
+                    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80'
+                },
+                date: '24 Aralık 2024',
+                link: 'blog-posts/startup-career.html'
+            }
+        ];
+
+        function loadBlogPosts() {
+            const blogGrid = document.getElementById('blogGrid');
+            
+            blogGrid.innerHTML = blogPosts.map(post => `
+                <a href="${post.link}" class="blog-card" style="text-decoration: none; color: inherit;">
+                    <div class="blog-image-container">
+                        <img src="${post.image}" alt="${post.title}" class="blog-image">
+                        <span class="blog-category">${post.category}</span>
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">${post.title}</h3>
+                        <p class="blog-excerpt">${post.excerpt}</p>
+                        <div class="blog-meta">
+                            <div class="blog-author">
+                                <img src="${post.author.avatar}" alt="${post.author.name}" class="author-avatar">
+                                <span>${post.author.name}</span>
+                            </div>
+                            <div class="blog-date">
+                                <i class="far fa-calendar"></i>
+                                <span>${post.date}</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Auth functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            const form = document.getElementById(modalId).querySelector('form');
+            if (form) {
+                form.reset();
+            }
+        }
+
+        function switchModal(closeModalId, openModalId) {
+            closeModal(closeModalId);
+            openModal(openModalId);
+        }
+
+        function login(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Simulate login
+            const email = formData.get('email');
+            const password = formData.get('password');
+            
+            // Store user data in localStorage
+            const userData = {
+                email: email,
+                name: email.split('@')[0]
+            };
+            localStorage.setItem('user', JSON.stringify(userData));
+            
+            // Update UI
+            updateAuthUI();
+            
+            // Close modal
+            closeModal('loginModal');
+        }
+
+        function register(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Simulate registration
+            const email = formData.get('email');
+            const fullName = formData.get('fullName');
+            
+            // Store user data in localStorage
+            const userData = {
+                email: email,
+                name: fullName
+            };
+            localStorage.setItem('user', JSON.stringify(userData));
+            
+            // Update UI
+            updateAuthUI();
+            
+            // Close modal
+            closeModal('registerModal');
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            updateAuthUI();
+            // Redirect to homepage after logout
+            window.location.href = 'index.html';
+        }
+
+        // User menu toggle
+        const userButton = document.querySelector('.user-button');
+        const userMenu = document.querySelector('.user-menu');
+
+        if (userButton) {
+            userButton.addEventListener('click', function() {
+                userMenu.classList.toggle('active');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!userMenu.contains(event.target)) {
+                    userMenu.classList.remove('active');
+                }
+            });
+        }
+
+        function updateAuthUI() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const authButtons = document.querySelector('.auth-buttons');
+            const userMenu = document.querySelector('.user-menu');
+            
+            if (user) {
+                authButtons.style.display = 'none';
+                userMenu.style.display = 'flex';
+                const userName = userMenu.querySelector('.user-name');
+                if (userName) {
+                    userName.textContent = user.name;
+                }
+            } else {
+                authButtons.style.display = 'flex';
+                userMenu.style.display = 'none';
+            }
+        }
+
+        // Initialize auth UI on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAuthUI();
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBlogPosts();
+        });
+    </script>
+</body>
+</html> 

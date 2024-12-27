@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İş İlanları - Skillvio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">Skillvio</a>
+            
+            <div class="navbar-nav">
+                <a href="index.html" class="nav-link">Ana Sayfa</a>
+                <a href="jobs.html" class="nav-link active">İş İlanları</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="education.html" class="nav-link">Eğitimler</a>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="auth-buttons">
+                <button class="btn btn-outline" onclick="openModal('loginModal')">Giriş Yap</button>
+                <button class="btn btn-primary" onclick="openModal('registerModal')">Üye Ol</button>
+            </div>
+
+            <!-- User Menu (Hidden by default) -->
+            <div class="user-menu">
+                <button class="user-button">
+                    <i class="fas fa-user"></i>
+                    <span class="user-name"></span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="user-menu-items">
+                    <a href="profile.html" class="user-menu-item">
+                        <i class="fas fa-user"></i>
+                        Profil
+                    </a>
+                    <a href="#" class="user-menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Çıkış Yap
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>İş İlanları</h1>
+            <p>Kariyerinize yön verecek fırsatları keşfedin</p>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-filters">
+                <div class="search-input">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Pozisyon, şirket veya anahtar kelime">
+                </div>
+                <select class="filter-select">
+                    <option value="">Şehir Seçin</option>
+                    <option value="istanbul">İstanbul</option>
+                    <option value="ankara">Ankara</option>
+                    <option value="izmir">İzmir</option>
+                </select>
+                <select class="filter-select">
+                    <option value="">Departman</option>
+                    <option value="yazilim">Yazılım</option>
+                    <option value="tasarim">Tasarım</option>
+                    <option value="pazarlama">Pazarlama</option>
+                </select>
+                <select class="filter-select">
+                    <option value="">Deneyim Seviyesi</option>
+                    <option value="stajyer">Stajyer</option>
+                    <option value="junior">Junior</option>
+                    <option value="senior">Senior</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jobs Grid -->
+    <section class="jobs-section">
+        <div class="container">
+            <div class="jobs-header">
+                <div class="jobs-count">
+                    <span>4</span> ilan bulundu
+                </div>
+                <div class="jobs-sort">
+                    <select class="sort-select">
+                        <option value="newest">En Yeni</option>
+                        <option value="oldest">En Eski</option>
+                    </select>
+                </div>
+            </div>
+            <div class="job-cards">
+                <div class="job-card">
+                    <div class="job-card-header">
+                        <div class="job-title-company">
+                            <img src="https://images.unsplash.com/photo-1549421263-5ec394a5ad4c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt="Tech Solutions" class="company-logo">
+                            <div>
+                                <h3>Senior Frontend Developer</h3>
+                                <span class="company-name">Tech Solutions</span>
+                            </div>
+                        </div>
+                        <span class="job-type">Tam Zamanlı</span>
+                    </div>
+                    
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> İstanbul</span>
+                        <span><i class="fas fa-briefcase"></i> Senior</span>
+                        <span><i class="fas fa-clock"></i> Ofis</span>
+                        <span><i class="fas fa-money-bill"></i> 40-60K TL</span>
+                    </div>
+
+                    <p class="job-description">
+                        Modern web teknolojileri kullanarak yenilikçi projeler geliştiren ekibimize katılacak, deneyimli Frontend Developer arıyoruz.
+                    </p>
+
+                    <div class="job-requirements">
+                        <span class="requirement-tag">5+ yıl deneyim</span>
+                        <span class="requirement-tag">React</span>
+                        <span class="requirement-tag">TypeScript</span>
+                        <span class="requirement-tag">CSS3</span>
+                        <span class="requirement-tag">Next.js</span>
+                        <span class="requirement-tag">Redux</span>
+                    </div>
+
+                    <div class="job-actions">
+                        <button onclick="handleJobApplication('Senior Frontend Developer', 'Tech Solutions')" class="btn btn-primary">Başvur</button>
+                        <a href="job-details/senior-frontend.html" class="btn btn-outline">Detayları Gör</a>
+                    </div>
+                </div>
+
+                <div class="job-card">
+                    <div class="job-card-header">
+                        <div class="job-title-company">
+                            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt="Creative Agency" class="company-logo">
+                            <div>
+                                <h3>UI/UX Designer</h3>
+                                <span class="company-name">Creative Agency</span>
+                            </div>
+                        </div>
+                        <span class="job-type">Hibrit</span>
+                    </div>
+                    
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> İzmir</span>
+                        <span><i class="fas fa-briefcase"></i> Mid-Senior</span>
+                        <span><i class="fas fa-clock"></i> Hibrit</span>
+                        <span><i class="fas fa-money-bill"></i> 25-35K TL</span>
+                    </div>
+
+                    <p class="job-description">
+                        Kullanıcı deneyimini en üst seviyeye çıkaracak, yaratıcı ve yenilikçi tasarımlar yapacak UI/UX Designer arıyoruz.
+                    </p>
+
+                    <div class="job-requirements">
+                        <span class="requirement-tag">3+ yıl deneyim</span>
+                        <span class="requirement-tag">Figma</span>
+                        <span class="requirement-tag">Adobe XD</span>
+                        <span class="requirement-tag">User Research</span>
+                        <span class="requirement-tag">Prototyping</span>
+                    </div>
+
+                    <div class="job-actions">
+                        <button onclick="handleJobApplication('UI/UX Designer', 'Creative Agency')" class="btn btn-primary">Başvur</button>
+                        <a href="job-details/ui-ux-designer.html" class="btn btn-outline">Detayları Gör</a>
+                    </div>
+                </div>
+
+                <div class="job-card">
+                    <div class="job-card-header">
+                        <div class="job-title-company">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt="Fintech Startup" class="company-logo">
+                            <div>
+                                <h3>Backend Developer</h3>
+                                <span class="company-name">Fintech Startup</span>
+                            </div>
+                        </div>
+                        <span class="job-type">Uzaktan</span>
+                    </div>
+                    
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> Ankara</span>
+                        <span><i class="fas fa-briefcase"></i> Junior</span>
+                        <span><i class="fas fa-clock"></i> Uzaktan</span>
+                        <span><i class="fas fa-money-bill"></i> 20-30K TL</span>
+                    </div>
+
+                    <p class="job-description">
+                        Fintech alanında yenilikçi çözümler üreten ekibimize katılacak, öğrenmeye açık Backend Developer arıyoruz.
+                    </p>
+
+                    <div class="job-requirements">
+                        <span class="requirement-tag">1+ yıl deneyim</span>
+                        <span class="requirement-tag">Node.js</span>
+                        <span class="requirement-tag">PostgreSQL</span>
+                        <span class="requirement-tag">REST API</span>
+                        <span class="requirement-tag">Express.js</span>
+                    </div>
+
+                    <div class="job-actions">
+                        <button onclick="handleJobApplication('Backend Developer', 'Fintech Startup')" class="btn btn-primary">Başvur</button>
+                        <a href="job-details/backend-developer.html" class="btn btn-outline">Detayları Gör</a>
+                    </div>
+                </div>
+
+                <div class="job-card">
+                    <div class="job-card-header">
+                        <div class="job-title-company">
+                            <img src="https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt="Digital Marketing" class="company-logo">
+                            <div>
+                                <h3>Digital Marketing Specialist</h3>
+                                <span class="company-name">Growth Media</span>
+                            </div>
+                        </div>
+                        <span class="job-type">Tam Zamanlı</span>
+                    </div>
+                    
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> İstanbul</span>
+                        <span><i class="fas fa-briefcase"></i> Mid-Level</span>
+                        <span><i class="fas fa-clock"></i> Ofis</span>
+                        <span><i class="fas fa-money-bill"></i> 25-35K TL</span>
+                    </div>
+
+                    <p class="job-description">
+                        Dijital pazarlama stratejileri geliştirerek markaların büyümesine katkı sağlayacak Digital Marketing Specialist arıyoruz.
+                    </p>
+
+                    <div class="job-requirements">
+                        <span class="requirement-tag">2+ yıl deneyim</span>
+                        <span class="requirement-tag">SEO</span>
+                        <span class="requirement-tag">Google Ads</span>
+                        <span class="requirement-tag">Social Media</span>
+                        <span class="requirement-tag">Analytics</span>
+                    </div>
+
+                    <div class="job-actions">
+                        <button onclick="handleJobApplication('Digital Marketing Specialist', 'Growth Media')" class="btn btn-primary">Başvur</button>
+                        <a href="job-details/digital-marketing.html" class="btn btn-outline">Detayları Gör</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 class="modal-title">Giriş Yap</h2>
+                <p>Hesabınıza giriş yapın</p>
+            </div>
+            <form id="loginForm" onsubmit="login(event)">
+                <div class="form-group">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Şifre</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Giriş Yap</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Hesabınız yok mu? 
+                <a href="#" onclick="switchModal('loginModal', 'registerModal')">Üye Ol</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('registerModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 class="modal-title">Üye Ol</h2>
+                <p>Yeni bir hesap oluşturun</p>
+            </div>
+            <form id="registerForm" onsubmit="register(event)">
+                <div class="form-group">
+                    <label class="form-label">Ad Soyad</label>
+                    <input type="text" class="form-control" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Şifre</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Şifre Tekrar</label>
+                    <input type="password" class="form-control" name="passwordConfirm" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Üye Ol</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Zaten üye misiniz? 
+                <a href="#" onclick="switchModal('registerModal', 'loginModal')">Giriş Yap</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Application Modal -->
+    <div class="modal" id="applicationModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <button class="modal-close" onclick="closeModal('applicationModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 class="modal-title">Hızlı Başvuru</h2>
+                <p id="jobTitle"></p>
+            </div>
+            <form id="quickApplicationForm" onsubmit="submitApplication(event)">
+                <div class="form-group">
+                    <label class="form-label">Neden bu pozisyona başvuruyorsunuz?</label>
+                    <textarea class="form-control" name="motivation" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Bu pozisyon için sizi öne çıkaran özellikleriniz nelerdir?</label>
+                    <textarea class="form-control" name="strengths" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tercih ettiğiniz çalışma şekli nedir?</label>
+                    <select class="form-control" name="workPreference" required>
+                        <option value="">Seçiniz</option>
+                        <option value="remote">Uzaktan</option>
+                        <option value="office">Ofisten</option>
+                        <option value="hybrid">Hibrit</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">En erken ne zaman işe başlayabilirsiniz?</label>
+                    <input type="date" class="form-control" name="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Beklediğiniz aylık ücret aralığı nedir?</label>
+                    <select class="form-control" name="salaryExpectation" required>
+                        <option value="">Seçiniz</option>
+                        <option value="15-20">15.000₺ - 20.000₺</option>
+                        <option value="20-30">20.000₺ - 30.000₺</option>
+                        <option value="30-40">30.000₺ - 40.000₺</option>
+                        <option value="40+">40.000₺ ve üzeri</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Başvuruyu Gönder</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Auth functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            const form = document.getElementById(modalId).querySelector('form');
+            if (form) {
+                form.reset();
+            }
+        }
+
+        function switchModal(closeModalId, openModalId) {
+            closeModal(closeModalId);
+            openModal(openModalId);
+        }
+
+        function login(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Simulate login
+            const email = formData.get('email');
+            const password = formData.get('password');
+            
+            // Store user data in localStorage
+            const userData = {
+                email: email,
+                name: email.split('@')[0]
+            };
+            localStorage.setItem('user', JSON.stringify(userData));
+            
+            // Update UI
+            updateAuthUI();
+            
+            // Close modal
+            closeModal('loginModal');
+        }
+
+        function register(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Simulate registration
+            const email = formData.get('email');
+            const fullName = formData.get('fullName');
+            
+            // Store user data in localStorage
+            const userData = {
+                email: email,
+                name: fullName
+            };
+            localStorage.setItem('user', JSON.stringify(userData));
+            
+            // Update UI
+            updateAuthUI();
+            
+            // Close modal
+            closeModal('registerModal');
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            updateAuthUI();
+            // Redirect to homepage after logout
+            window.location.href = 'index.html';
+        }
+
+        // User menu toggle
+        const userButton = document.querySelector('.user-button');
+        const userMenu = document.querySelector('.user-menu');
+
+        if (userButton) {
+            userButton.addEventListener('click', function() {
+                userMenu.classList.toggle('active');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!userMenu.contains(event.target)) {
+                    userMenu.classList.remove('active');
+                }
+            });
+        }
+
+        function updateAuthUI() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const authButtons = document.querySelector('.auth-buttons');
+            const userMenu = document.querySelector('.user-menu');
+            
+            if (user) {
+                authButtons.style.display = 'none';
+                userMenu.style.display = 'flex';
+                const userName = userMenu.querySelector('.user-name');
+                if (userName) {
+                    userName.textContent = user.name;
+                }
+            } else {
+                authButtons.style.display = 'flex';
+                userMenu.style.display = 'none';
+            }
+        }
+
+        // Initialize auth UI on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAuthUI();
+        });
+
+        // Job application handler
+        function handleJobApplication(jobTitle, company) {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user) {
+                openModal('loginModal');
+                return;
+            }
+            
+            document.getElementById('jobTitle').textContent = `${jobTitle} - ${company}`;
+            openModal('applicationModal');
+        }
+
+        function submitApplication(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Burada form verilerini işleyebilirsiniz
+            console.log(Object.fromEntries(formData));
+            
+            alert('Başvurunuz başarıyla alındı! En kısa sürede size dönüş yapacağız.');
+            closeModal('applicationModal');
+            form.reset();
+        }
+    </script>
+</body>
+</html> 

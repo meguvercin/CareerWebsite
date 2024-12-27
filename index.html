@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skillvio - Kariyerinize Yön Verin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">Skillvio</a>
+            
+            <div class="navbar-nav">
+                <a href="index.html" class="nav-link active">Ana Sayfa</a>
+                <a href="jobs.html" class="nav-link">İş İlanları</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="education.html" class="nav-link">Eğitimler</a>
+            </div>
+
+            <!-- Auth Buttons -->
+            <div class="auth-buttons">
+                <button class="btn btn-outline" onclick="openModal('loginModal')">Giriş Yap</button>
+                <button class="btn btn-primary" onclick="openModal('registerModal')">Üye Ol</button>
+            </div>
+
+            <!-- User Menu (Hidden by default) -->
+            <div class="user-menu">
+                <button class="user-button">
+                    <i class="fas fa-user"></i>
+                    <span class="user-name"></span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="user-menu-items">
+                    <a href="profile.html" class="user-menu-item">
+                        <i class="fas fa-user"></i>
+                        Profil
+                    </a>
+                    <a href="#" class="user-menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Çıkış Yap
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Kariyerinize Yön Verin</h1>
+                <p>İş fırsatları ve eğitim içerikleriyle geleceğinizi şekillendirin</p>
+                <div class="hero-buttons">
+                    <a href="jobs.html" class="btn btn-primary">İş İlanları</a>
+                    <a href="education.html" class="btn btn-outline">Eğitimler</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Neler Sunuyoruz?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-briefcase"></i>
+                    <h3>İş İlanları</h3>
+                    <p>Sizin için özenle seçilmiş güncel iş fırsatları</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Eğitimler</h3>
+                    <p>Kariyerinizi geliştirecek online eğitim içerikleri</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-newspaper"></i>
+                    <h3>Blog</h3>
+                    <p>Kariyer ve kişisel gelişim ile ilgili güncel yazılar</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Topluluk</h3>
+                    <p>Profesyonellerle network kurma fırsatı</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Jobs Section -->
+    <section class="latest-jobs">
+        <div class="container">
+            <div class="section-header">
+                <h2>Güncel İş İlanları</h2>
+                <a href="jobs.html">
+                    Tümünü Gör
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="job-cards">
+                <div class="job-card">
+                    <img src="https://images.unsplash.com/photo-1549421263-5ec394a5ad4c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt="Tech Solutions" class="company-logo">
+                    <h3>Senior Frontend Developer</h3>
+                    <span class="company-name">Tech Solutions</span>
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> İstanbul</span>
+                        <span><i class="fas fa-briefcase"></i> Senior</span>
+                    </div>
+                    <div class="job-tags">
+                        <span>5+ yıl deneyim</span>
+                        <span>React</span>
+                        <span>TypeScript</span>
+                        <span>CSS3</span>
+                    </div>
+                    <div class="job-actions">
+                        <button onclick="handleJobApplication('Senior Frontend Developer', 'Tech Solutions')" class="btn btn-primary">Başvur</button>
+                        <a href="job-details/senior-frontend.html" class="btn btn-outline">Detayları Gör</a>
+                    </div>
+                </div>
+
+                <div class="job-card">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt="Creative Agency" class="company-logo">
+                    <h3>UI/UX Designer</h3>
+                    <span class="company-name">Creative Agency</span>
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> İzmir</span>
+                        <span><i class="fas fa-briefcase"></i> Mid-Senior</span>
+                    </div>
+                    <div class="job-tags">
+                        <span>3+ yıl deneyim</span>
+                        <span>Figma</span>
+                        <span>Adobe XD</span>
+                        <span>User Research</span>
+                    </div>
+                    <div class="job-actions">
+                        <button onclick="handleJobApplication('UI/UX Designer', 'Creative Agency')" class="btn btn-primary">Başvur</button>
+                        <a href="job-details/ui-ux-designer.html" class="btn btn-outline">Detayları Gör</a>
+                    </div>
+                </div>
+
+                <div class="job-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80" alt="Fintech Startup" class="company-logo">
+                    <h3>Backend Developer</h3>
+                    <span class="company-name">Fintech Startup</span>
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> Ankara</span>
+                        <span><i class="fas fa-briefcase"></i> Junior</span>
+                    </div>
+                    <div class="job-tags">
+                        <span>1+ yıl deneyim</span>
+                        <span>Node.js</span>
+                        <span>PostgreSQL</span>
+                        <span>REST API</span>
+                    </div>
+                    <div class="job-actions">
+                        <button onclick="handleJobApplication('Backend Developer', 'Fintech Startup')" class="btn btn-primary">Başvur</button>
+                        <a href="job-details/backend-developer.html" class="btn btn-outline">Detayları Gör</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Blog Posts -->
+    <section class="latest-posts">
+        <div class="container">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 1rem;">
+                <h2 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0;">Son Blog Yazıları</h2>
+                <a href="blog.html" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #2563eb; font-weight: 500; padding: 0.5rem 1rem; border-radius: 0.5rem; transition: all 0.3s ease;">
+                    Tümünü Gör
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="posts-grid">
+                <div class="post-card" style="background: #EBF3FE;">
+                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Blog Post" class="post-image">
+                    <div class="post-content">
+                        <h3>2025'te Öne Çıkacak Yazılım Trendleri</h3>
+                        <p>Yapay zeka, blockchain ve sürdürülebilir yazılım geliştirme gibi trendler 2025'te öne çıkacak...</p>
+                        <div class="post-meta">
+                            <span class="date"><i class="far fa-calendar"></i> 27 Aralık 2024</span>
+                            <a href="blog-posts/2025-software-trends.html" class="read-more">
+                                Devamını Oku
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="post-card" style="background: #EBF3FE;">
+                    <img src="https://images.unsplash.com/photo-1552581234-26160f608093?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Blog Post" class="post-image">
+                    <div class="post-content">
+                        <h3>Remote Çalışmanın Püf Noktaları</h3>
+                        <p>Uzaktan çalışma sürecinizi daha verimli hale getirmek için önemli ipuçları ve stratejiler...</p>
+                        <div class="post-meta">
+                            <span class="date"><i class="far fa-calendar"></i> 27 Aralık 2024</span>
+                            <a href="blog-posts/remote-work-tips.html" class="read-more">
+                                Devamını Oku
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="post-card" style="background: #EBF3FE;">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80" alt="Blog Post" class="post-image">
+                    <div class="post-content">
+                        <h3>Yazılım Öğrenmenin En Etkili Yolları</h3>
+                        <p>Yazılım dünyasına adım atmak isteyenler için öğrenme sürecini hızlandıracak öneriler...</p>
+                        <div class="post-meta">
+                            <span class="date"><i class="far fa-calendar"></i> 27 Aralık 2024</span>
+                            <a href="blog-posts/learning-programming.html" class="read-more">
+                                Devamını Oku
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Skillvio</h3>
+                    <p>Kariyerinize y��n veren platform</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Hızlı Bağlantılar</h3>
+                    <ul class="footer-links">
+                        <li><a href="jobs.html">İş İlanları</a></li>
+                        <li><a href="education.html">Eğitimler</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="#">Hakkımızda</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>İletişim</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@skillvio.com">info@skillvio.com</a></li>
+                        <li><a href="tel:+902121234567">+90 212 123 45 67</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Skillvio. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 class="modal-title">Giriş Yap</h2>
+                <p>Hesabınıza giriş yapın</p>
+            </div>
+            <form id="loginForm" onsubmit="login(event)">
+                <div class="form-group">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Şifre</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Giriş Yap</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Hesabınız yok mu? 
+                <a href="#" onclick="switchModal('loginModal', 'registerModal')">Üye Ol</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('registerModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 class="modal-title">Üye Ol</h2>
+                <p>Yeni bir hesap oluşturun</p>
+            </div>
+            <form id="registerForm" onsubmit="register(event)">
+                <div class="form-group">
+                    <label class="form-label">Ad Soyad</label>
+                    <input type="text" class="form-control" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Şifre</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Şifre Tekrar</label>
+                    <input type="password" class="form-control" name="passwordConfirm" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Üye Ol</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Zaten üye misiniz? 
+                <a href="#" onclick="switchModal('registerModal', 'loginModal')">Giriş Yap</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Auth functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function switchModal(closeModalId, openModalId) {
+            closeModal(closeModalId);
+            openModal(openModalId);
+        }
+
+        function login(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Simulate login
+            const email = formData.get('email');
+            const password = formData.get('password');
+            
+            // Store user data in localStorage
+            const userData = {
+                email: email,
+                name: email.split('@')[0]
+            };
+            localStorage.setItem('user', JSON.stringify(userData));
+            
+            // Update UI
+            updateAuthUI();
+            
+            // Close modal
+            closeModal('loginModal');
+        }
+
+        function register(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Simulate registration
+            const email = formData.get('email');
+            const fullName = formData.get('fullName');
+            
+            // Store user data in localStorage
+            const userData = {
+                email: email,
+                name: fullName
+            };
+            localStorage.setItem('user', JSON.stringify(userData));
+            
+            // Update UI
+            updateAuthUI();
+            
+            // Close modal
+            closeModal('registerModal');
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            updateAuthUI();
+            // Redirect to homepage after logout
+            window.location.href = 'index.html';
+        }
+
+        // User menu toggle
+        const userButton = document.querySelector('.user-button');
+        const userMenu = document.querySelector('.user-menu');
+
+        if (userButton) {
+            userButton.addEventListener('click', function() {
+                userMenu.classList.toggle('active');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!userMenu.contains(event.target)) {
+                    userMenu.classList.remove('active');
+                }
+            });
+        }
+
+        function updateAuthUI() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const authButtons = document.querySelector('.auth-buttons');
+            const userMenu = document.querySelector('.user-menu');
+            
+            if (user) {
+                authButtons.style.display = 'none';
+                userMenu.style.display = 'flex';
+                const userName = userMenu.querySelector('.user-name');
+                if (userName) {
+                    userName.textContent = user.name;
+                }
+            } else {
+                authButtons.style.display = 'flex';
+                userMenu.style.display = 'none';
+            }
+        }
+
+        // Initialize auth UI on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAuthUI();
+        });
+
+        // Job application handler
+        function handleJobApplication(jobTitle, company) {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user) {
+                openModal('loginModal');
+                return;
+            }
+            // Handle job application logic here
+            alert(`Başvurunuz alındı: ${jobTitle} - ${company}`);
+        }
+    </script>
+</body>
+</html> 
