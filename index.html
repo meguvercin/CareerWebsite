@@ -282,6 +282,9 @@
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Giriş Yap</button>
             </form>
             <p style="text-align: center; margin-top: 1rem;">
+                <a href="#" onclick="openModal('forgotPasswordModal'); closeModal('loginModal')">Şifremi Unuttum</a>
+            </p>
+            <p style="text-align: center; margin-top: 1rem;">
                 Hesabınız yok mu? 
                 <a href="#" onclick="switchModal('loginModal', 'registerModal')">Üye Ol</a>
             </p>
@@ -324,6 +327,29 @@
         </div>
     </div>
 
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('forgotPasswordModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 class="modal-title">Şifremi Sıfırla</h2>
+                <p>Kayıtlı e-posta adresinizi girin</p>
+            </div>
+            <form id="forgotPasswordForm" onsubmit="resetPassword(event)">
+                <div class="form-group">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Şifremi Sıfırla</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                <a href="#" onclick="openModal('loginModal'); closeModal('forgotPasswordModal')">Giriş Yap</a>
+            </p>
+        </div>
+    </div>
+
     <script>
         // Auth functions
         function openModal(modalId) {
@@ -332,6 +358,10 @@
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
+            const form = document.getElementById(modalId).querySelector('form');
+            if (form) {
+                form.reset();
+            }
         }
 
         function switchModal(closeModalId, openModalId) {
@@ -344,16 +374,26 @@
             const form = event.target;
             const formData = new FormData(form);
             
-            // Simulate login
+            // Get stored users data
+            const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
             const email = formData.get('email');
             const password = formData.get('password');
             
-            // Store user data in localStorage
-            const userData = {
+            // Find user with matching email and password
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (!user) {
+                alert('E-posta veya şifre hatalı!');
+                return;
+            }
+            
+            // Create session
+            const sessionData = {
                 email: email,
-                name: email.split('@')[0]
+                name: user.name,
+                sessionStartTime: new Date().getTime()
             };
-            localStorage.setItem('user', JSON.stringify(userData));
+            sessionStorage.setItem('userSession', JSON.stringify(sessionData));
             
             // Update UI
             updateAuthUI();
@@ -367,16 +407,46 @@
             const form = event.target;
             const formData = new FormData(form);
             
-            // Simulate registration
             const email = formData.get('email');
             const fullName = formData.get('fullName');
+            const password = formData.get('password');
+            const passwordConfirm = formData.get('passwordConfirm');
             
-            // Store user data in localStorage
+            // Validate passwords match
+            if (password !== passwordConfirm) {
+                alert('Şifreler eşleşmiyor!');
+                return;
+            }
+
+            // Get existing users or initialize empty array
+            const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+
+            // Check if email already exists
+            if (users.some(user => user.email === email)) {
+                alert('Bu e-posta adresi zaten kayıtlı!');
+                return;
+            }
+            
+            // Create new user data
             const userData = {
                 email: email,
-                name: fullName
+                name: fullName,
+                password: password // In a real app, this should be hashed
             };
-            localStorage.setItem('user', JSON.stringify(userData));
+
+            // Add new user to array
+            users.push(userData);
+            
+            // Save updated users array
+            localStorage.setItem('registeredUsers', JSON.stringify(users));
+            
+            // Create session
+            const sessionData = {
+                email: email,
+                name: fullName,
+                sessionStartTime: new Date().getTime()
+            };
+            sessionStorage.setItem('userSession', JSON.stringify(sessionData));
             
             // Update UI
             updateAuthUI();
@@ -386,7 +456,8 @@
         }
 
         function logout() {
-            localStorage.removeItem('user');
+            // Remove only session data
+            sessionStorage.removeItem('userSession');
             updateAuthUI();
             // Redirect to homepage after logout
             window.location.href = 'index.html';
@@ -410,16 +481,16 @@
         }
 
         function updateAuthUI() {
-            const user = JSON.parse(localStorage.getItem('user'));
+            const session = JSON.parse(sessionStorage.getItem('userSession'));
             const authButtons = document.querySelector('.auth-buttons');
             const userMenu = document.querySelector('.user-menu');
             
-            if (user) {
+            if (session) {
                 authButtons.style.display = 'none';
                 userMenu.style.display = 'flex';
                 const userName = userMenu.querySelector('.user-name');
                 if (userName) {
-                    userName.textContent = user.name;
+                    userName.textContent = session.name;
                 }
             } else {
                 authButtons.style.display = 'flex';
@@ -432,15 +503,49 @@
             updateAuthUI();
         });
 
-        // Job application handler
-        function handleJobApplication(jobTitle, company) {
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (!user) {
-                openModal('loginModal');
+        function resetPassword(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const email = formData.get('email');
+            
+            // Get stored users data
+            const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            
+            // Find user with matching email
+            const userIndex = users.findIndex(u => u.email === email);
+            
+            if (userIndex === -1) {
+                alert('Bu e-posta adresi ile kayıtlı bir hesap bulunamadı!');
                 return;
             }
-            // Handle job application logic here
-            alert(`Başvurunuz alındı: ${jobTitle} - ${company}`);
+            
+            // Generate a new random password
+            const newPassword = Math.random().toString(36).slice(-8);
+            
+            // Update user's password
+            users[userIndex].password = newPassword;
+            
+            // Save updated users array
+            localStorage.setItem('registeredUsers', JSON.stringify(users));
+            
+            // Show the new password to user (in a real app, this would be sent via email)
+            alert(`Yeni şifreniz: ${newPassword}\n\nLütfen bu şifreyi not alın ve giriş yaptıktan sonra değiştirin.`);
+            
+            // Close modal and open login
+            closeModal('forgotPasswordModal');
+            openModal('loginModal');
+            form.reset();
+        }
+
+        // Tüm verileri temizleme fonksiyonu
+        function clearAllData() {
+            if (confirm('Tüm kayıtlı veriler silinecek. Emin misiniz?')) {
+                localStorage.clear();
+                sessionStorage.clear();
+                alert('Tüm veriler temizlendi. Sayfa yenileniyor...');
+                window.location.href = 'index.html';
+            }
         }
     </script>
 </body>

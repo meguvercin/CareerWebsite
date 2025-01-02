@@ -30,6 +30,10 @@
                         <i class="fas fa-user"></i>
                         Profil
                     </a>
+                    <a href="#" class="user-menu-item" onclick="clearAllData()">
+                        <i class="fas fa-trash"></i>
+                        Tüm Verileri Temizle
+                    </a>
                     <a href="#" class="user-menu-item" onclick="logout()">
                         <i class="fas fa-sign-out-alt"></i>
                         Çıkış Yap
@@ -206,15 +210,40 @@
     </section>
 
     <script>
+        // Oturum kontrolü
+        function checkSession() {
+            const session = JSON.parse(sessionStorage.getItem('userSession'));
+            if (!session || !session.email) {
+                window.location.href = 'index.html';
+                return null;
+            }
+            return session;
+        }
+
+        // Kullanıcı menüsünü güncelle
+        function updateUserMenu() {
+            const session = checkSession();
+            if (session) {
+                const userName = document.querySelector('.user-name');
+                if (userName) {
+                    userName.textContent = session.name;
+                }
+            }
+        }
+
         // Profil fotoğrafı yükleme
         document.getElementById('photoUpload').addEventListener('change', function(e) {
+            const session = checkSession();
+            if (!session) return;
+
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('profilePhoto').src = e.target.result;
-                    // Fotoğrafı localStorage'a kaydet
-                    localStorage.setItem('profilePhoto', e.target.result);
+                    // Fotoğrafı kullanıcıya özel olarak kaydet
+                    const profileKey = `userProfile_${session.email}`;
+                    localStorage.setItem(`${profileKey}_image`, e.target.result);
                 };
                 reader.readAsDataURL(file);
             }
@@ -224,7 +253,6 @@
         function addEducation() {
             const container = document.getElementById('educationContainer');
             const template = container.children[0].cloneNode(true);
-            // Input değerlerini temizle
             template.querySelectorAll('input').forEach(input => input.value = '');
             container.appendChild(template);
         }
@@ -233,7 +261,6 @@
         function addExperience() {
             const container = document.getElementById('experienceContainer');
             const template = container.children[0].cloneNode(true);
-            // Input değerlerini temizle
             template.querySelectorAll('input, textarea').forEach(input => input.value = '');
             container.appendChild(template);
         }
@@ -266,6 +293,9 @@
         // Profil formunu kaydetme
         function saveProfile(event) {
             event.preventDefault();
+            const session = checkSession();
+            if (!session) return;
+
             const form = event.target;
             const formData = new FormData(form);
             
@@ -292,8 +322,9 @@
                 skills: skills
             };
 
-            // Profil verilerini localStorage'a kaydet
-            localStorage.setItem('profileData', JSON.stringify(profileData));
+            // Profil verilerini kullanıcıya özel olarak kaydet
+            const profileKey = `userProfile_${session.email}`;
+            localStorage.setItem(profileKey, JSON.stringify(profileData));
             
             // Başarılı mesajı göster
             alert('Profil başarıyla güncellendi!');
@@ -310,7 +341,7 @@
                 department: departments[index],
                 startDate: startDates[index],
                 endDate: endDates[index]
-            }));
+            })).filter(edu => edu.school || edu.department);
         }
 
         function getExperienceData(formData) {
@@ -326,40 +357,72 @@
                 startDate: startDates[index],
                 endDate: endDates[index],
                 description: descriptions[index]
-            }));
+            })).filter(exp => exp.company || exp.position);
+        }
+
+        // Çıkış yapma fonksiyonu
+        function logout() {
+            sessionStorage.removeItem('userSession');
+            window.location.href = 'index.html';
+        }
+
+        // Tüm verileri temizleme fonksiyonu
+        function clearAllData() {
+            if (confirm('Tüm kayıtlı veriler silinecek. Emin misiniz?')) {
+                localStorage.clear();
+                sessionStorage.clear();
+                alert('Tüm veriler temizlendi. Sayfa yenileniyor...');
+                window.location.href = 'index.html';
+            }
         }
 
         // Sayfa yüklendiğinde profil verilerini yükle
         document.addEventListener('DOMContentLoaded', function() {
-            // Profil fotoğrafını yükle
-            const profilePhoto = localStorage.getItem('profilePhoto');
-            if (profilePhoto) {
-                document.getElementById('profilePhoto').src = profilePhoto;
-            }
+            const session = checkSession();
+            if (!session) return;
 
-            // Profil verilerini yükle
-            const profileData = JSON.parse(localStorage.getItem('profileData'));
+            updateUserMenu();
+
+            // Kullanıcıya özel profil verilerini yükle
+            const profileKey = `userProfile_${session.email}`;
+            const profileData = JSON.parse(localStorage.getItem(profileKey));
+            
             if (profileData) {
                 // Form alanlarını doldur
-                document.querySelector('[name="fullName"]').value = profileData.fullName;
-                document.querySelector('[name="title"]').value = profileData.title;
-                document.querySelector('[name="email"]').value = profileData.email;
-                document.querySelector('[name="phone"]').value = profileData.phone;
-                document.querySelector('[name="birthDate"]').value = profileData.birthDate;
-                document.querySelector('[name="city"]').value = profileData.city;
-                document.querySelector('[name="about"]').value = profileData.about;
+                document.querySelector('[name="fullName"]').value = profileData.fullName || '';
+                document.querySelector('[name="title"]').value = profileData.title || '';
+                document.querySelector('[name="email"]').value = profileData.email || '';
+                document.querySelector('[name="phone"]').value = profileData.phone || '';
+                document.querySelector('[name="birthDate"]').value = profileData.birthDate || '';
+                document.querySelector('[name="city"]').value = profileData.city || '';
+                document.querySelector('[name="about"]').value = profileData.about || '';
 
                 // Sosyal medya linklerini doldur
-                document.querySelector('[name="linkedin"]').value = profileData.social.linkedin;
-                document.querySelector('[name="github"]').value = profileData.social.github;
-                document.querySelector('[name="portfolio"]').value = profileData.social.portfolio;
+                if (profileData.social) {
+                    document.querySelector('[name="linkedin"]').value = profileData.social.linkedin || '';
+                    document.querySelector('[name="github"]').value = profileData.social.github || '';
+                    document.querySelector('[name="portfolio"]').value = profileData.social.portfolio || '';
+                }
 
                 // Yetenekleri yükle
-                profileData.skills.forEach(skill => addSkill(skill));
+                if (profileData.skills) {
+                    profileData.skills.forEach(skill => addSkill(skill));
+                }
 
                 // Profil başlığını güncelle
-                document.getElementById('profileName').textContent = profileData.fullName;
-                document.getElementById('profileTitle').textContent = profileData.title;
+                document.getElementById('profileName').textContent = profileData.fullName || session.name;
+                document.getElementById('profileTitle').textContent = profileData.title || '';
+
+                // Profil fotoğrafını yükle
+                const profileImage = localStorage.getItem(`${profileKey}_image`);
+                if (profileImage) {
+                    document.getElementById('profilePhoto').src = profileImage;
+                }
+            } else {
+                // Eğer profil verisi yoksa, session'dan temel bilgileri al
+                document.querySelector('[name="fullName"]').value = session.name || '';
+                document.querySelector('[name="email"]').value = session.email || '';
+                document.getElementById('profileName').textContent = session.name || '';
             }
         });
     </script>

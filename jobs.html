@@ -65,21 +65,22 @@
                 </div>
                 <select class="filter-select">
                     <option value="">Şehir Seçin</option>
-                    <option value="istanbul">İstanbul</option>
-                    <option value="ankara">Ankara</option>
-                    <option value="izmir">İzmir</option>
+                    <option value="İstanbul">İstanbul</option>
+                    <option value="Ankara">Ankara</option>
+                    <option value="İzmir">İzmir</option>
                 </select>
                 <select class="filter-select">
                     <option value="">Departman</option>
-                    <option value="yazilim">Yazılım</option>
-                    <option value="tasarim">Tasarım</option>
-                    <option value="pazarlama">Pazarlama</option>
+                    <option value="Yazılım">Yazılım</option>
+                    <option value="Tasarım">Tasarım</option>
+                    <option value="Pazarlama">Pazarlama</option>
                 </select>
                 <select class="filter-select">
                     <option value="">Deneyim Seviyesi</option>
-                    <option value="stajyer">Stajyer</option>
-                    <option value="junior">Junior</option>
-                    <option value="senior">Senior</option>
+                    <option value="Junior">Junior</option>
+                    <option value="Mid-Level">Mid-Level</option>
+                    <option value="Mid-Senior">Mid-Senior</option>
+                    <option value="Senior">Senior</option>
                 </select>
             </div>
         </div>
@@ -252,6 +253,43 @@
         </div>
     </section>
 
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Skillvio</h3>
+                    <p>Kariyerinize yön veren platform</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Hızlı Bağlantılar</h3>
+                    <ul class="footer-links">
+                        <li><a href="jobs.html">İş İlanları</a></li>
+                        <li><a href="education.html">Eğitimler</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="#">Hakkımızda</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>İletişim</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@skillvio.com">info@skillvio.com</a></li>
+                        <li><a href="tel:+902121234567">+90 212 123 45 67</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Skillvio. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
     <!-- Login Modal -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
@@ -273,6 +311,9 @@
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Giriş Yap</button>
             </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                <a href="#" onclick="openModal('forgotPasswordModal'); closeModal('loginModal')">Şifremi Unuttum</a>
+            </p>
             <p style="text-align: center; margin-top: 1rem;">
                 Hesabınız yok mu? 
                 <a href="#" onclick="switchModal('loginModal', 'registerModal')">Üye Ol</a>
@@ -363,7 +404,190 @@
         </div>
     </div>
 
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('forgotPasswordModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 class="modal-title">Şifremi Sıfırla</h2>
+                <p>Kayıtlı e-posta adresinizi girin</p>
+            </div>
+            <form id="forgotPasswordForm" onsubmit="resetPassword(event)">
+                <div class="form-group">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Şifremi Sıfırla</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                <a href="#" onclick="openModal('loginModal'); closeModal('forgotPasswordModal')">Giriş Yap</a>
+            </p>
+        </div>
+    </div>
+
     <script>
+        // İş ilanları verisi
+        const jobListings = [
+            {
+                title: "Senior Frontend Developer",
+                company: "Tech Solutions",
+                companyLogo: "https://images.unsplash.com/photo-1549421263-5ec394a5ad4c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80",
+                location: "İstanbul",
+                type: "Tam Zamanlı",
+                experience: "Senior",
+                workType: "Ofis",
+                salary: "40-60K TL",
+                description: "Modern web teknolojileri kullanarak yenilikçi projeler geliştiren ekibimize katılacak, deneyimli Frontend Developer arıyoruz.",
+                requirements: ["5+ yıl deneyim", "React", "TypeScript", "CSS3", "Next.js", "Redux"],
+                department: "Yazılım"
+            },
+            {
+                title: "UI/UX Designer",
+                company: "Creative Agency",
+                companyLogo: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80",
+                location: "İzmir",
+                type: "Hibrit",
+                experience: "Mid-Senior",
+                workType: "Hibrit",
+                salary: "25-35K TL",
+                description: "Kullanıcı deneyimini en üst seviyeye çıkaracak, yaratıcı ve yenilikçi tasarımlar yapacak UI/UX Designer arıyoruz.",
+                requirements: ["3+ yıl deneyim", "Figma", "Adobe XD", "User Research", "Prototyping"],
+                department: "Tasarım"
+            },
+            {
+                title: "Backend Developer",
+                company: "Fintech Startup",
+                companyLogo: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80",
+                location: "Ankara",
+                type: "Uzaktan",
+                experience: "Junior",
+                workType: "Uzaktan",
+                salary: "20-30K TL",
+                description: "Fintech alanında yenilikçi çözümler üreten ekibimize katılacak, öğrenmeye açık Backend Developer arıyoruz.",
+                requirements: ["1+ yıl deneyim", "Node.js", "PostgreSQL", "REST API", "Express.js"],
+                department: "Yazılım"
+            },
+            {
+                title: "Digital Marketing Specialist",
+                company: "Growth Media",
+                companyLogo: "https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80",
+                location: "İstanbul",
+                type: "Tam Zamanlı",
+                experience: "Mid-Level",
+                workType: "Ofis",
+                salary: "25-35K TL",
+                description: "Dijital pazarlama stratejileri geliştirerek markaların büyümesine katkı sağlayacak Digital Marketing Specialist arıyoruz.",
+                requirements: ["2+ yıl deneyim", "SEO", "Google Ads", "Social Media", "Analytics"],
+                department: "Pazarlama"
+            }
+        ];
+
+        // Filtreleme ve arama fonksiyonu
+        function filterJobs() {
+            const searchQuery = document.querySelector('.search-input input').value.toLowerCase();
+            const selectedCity = document.querySelector('select[class="filter-select"]:nth-of-type(1)').value;
+            const selectedDepartment = document.querySelector('select[class="filter-select"]:nth-of-type(2)').value;
+            const selectedExperience = document.querySelector('select[class="filter-select"]:nth-of-type(3)').value;
+
+            const filteredJobs = jobListings.filter(job => {
+                const matchesSearch = job.title.toLowerCase().includes(searchQuery) ||
+                                    job.company.toLowerCase().includes(searchQuery) ||
+                                    job.description.toLowerCase().includes(searchQuery);
+                
+                const matchesCity = !selectedCity || job.location === selectedCity;
+                const matchesDepartment = !selectedDepartment || job.department === selectedDepartment;
+                const matchesExperience = !selectedExperience || job.experience.toLowerCase().includes(selectedExperience.toLowerCase());
+
+                return matchesSearch && matchesCity && matchesDepartment && matchesExperience;
+            });
+
+            displayJobs(filteredJobs);
+            updateJobCount(filteredJobs.length);
+        }
+
+        // İş ilanlarını görüntüleme fonksiyonu
+        function displayJobs(jobs) {
+            const jobCardsContainer = document.querySelector('.job-cards');
+            jobCardsContainer.innerHTML = jobs.map(job => {
+                let detailsUrl = '';
+                
+                // Her iş için doğru detay sayfası URL'sini belirle
+                switch(job.title) {
+                    case 'Senior Frontend Developer':
+                        detailsUrl = 'job-details/senior-frontend.html';
+                        break;
+                    case 'UI/UX Designer':
+                        detailsUrl = 'job-details/ui-ux-designer.html';
+                        break;
+                    case 'Backend Developer':
+                        detailsUrl = 'job-details/backend-developer.html';
+                        break;
+                    case 'Digital Marketing Specialist':
+                        detailsUrl = 'job-details/digital-marketing.html';
+                        break;
+                    default:
+                        detailsUrl = '#';
+                }
+
+                return `
+                <div class="job-card">
+                    <div class="job-card-header">
+                        <div class="job-title-company">
+                            <img src="${job.companyLogo}" alt="${job.company}" class="company-logo">
+                            <div>
+                                <h3>${job.title}</h3>
+                                <span class="company-name">${job.company}</span>
+                            </div>
+                        </div>
+                        <span class="job-type">${job.type}</span>
+                    </div>
+                    
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
+                        <span><i class="fas fa-briefcase"></i> ${job.experience}</span>
+                        <span><i class="fas fa-clock"></i> ${job.workType}</span>
+                        <span><i class="fas fa-money-bill"></i> ${job.salary}</span>
+                    </div>
+
+                    <p class="job-description">${job.description}</p>
+
+                    <div class="job-requirements">
+                        ${job.requirements.map(req => `<span class="requirement-tag">${req}</span>`).join('')}
+                    </div>
+
+                    <div class="job-actions">
+                        <button onclick="handleJobApplication('${job.title}', '${job.company}')" class="btn btn-primary">Başvur</button>
+                        <a href="${detailsUrl}" class="btn btn-outline">Detayları Gör</a>
+                    </div>
+                </div>
+            `;
+            }).join('');
+        }
+
+        // İş sayısını güncelleme fonksiyonu
+        function updateJobCount(count) {
+            const jobsCount = document.querySelector('.jobs-count span');
+            jobsCount.textContent = count;
+        }
+
+        // Event listener'ları ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sayfa yüklendiğinde tüm iş ilanlarını göster
+            displayJobs(jobListings);
+            updateJobCount(jobListings.length);
+
+            // Arama ve filtreleme event listener'ları
+            const searchInput = document.querySelector('.search-input input');
+            const filterSelects = document.querySelectorAll('.filter-select');
+
+            searchInput.addEventListener('input', filterJobs);
+            filterSelects.forEach(select => {
+                select.addEventListener('change', filterJobs);
+            });
+        });
+
         // Auth functions
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
@@ -387,16 +611,24 @@
             const form = event.target;
             const formData = new FormData(form);
             
-            // Simulate login
+            // Get stored user data
+            const storedUser = JSON.parse(localStorage.getItem('registeredUser'));
             const email = formData.get('email');
             const password = formData.get('password');
             
-            // Store user data in localStorage
-            const userData = {
+            // Check if user exists and password matches
+            if (!storedUser || storedUser.email !== email || storedUser.password !== password) {
+                alert('E-posta veya şifre hatalı!');
+                return;
+            }
+            
+            // Create session
+            const sessionData = {
                 email: email,
-                name: email.split('@')[0]
+                name: storedUser.name,
+                sessionStartTime: new Date().getTime()
             };
-            localStorage.setItem('user', JSON.stringify(userData));
+            sessionStorage.setItem('userSession', JSON.stringify(sessionData));
             
             // Update UI
             updateAuthUI();
@@ -410,16 +642,32 @@
             const form = event.target;
             const formData = new FormData(form);
             
-            // Simulate registration
             const email = formData.get('email');
             const fullName = formData.get('fullName');
+            const password = formData.get('password');
+            const passwordConfirm = formData.get('passwordConfirm');
             
-            // Store user data in localStorage
+            // Validate passwords match
+            if (password !== passwordConfirm) {
+                alert('Şifreler eşleşmiyor!');
+                return;
+            }
+            
+            // Store user data
             const userData = {
                 email: email,
-                name: fullName
+                name: fullName,
+                password: password // In a real app, this should be hashed
             };
-            localStorage.setItem('user', JSON.stringify(userData));
+            localStorage.setItem('registeredUser', JSON.stringify(userData));
+            
+            // Create session
+            const sessionData = {
+                email: email,
+                name: fullName,
+                sessionStartTime: new Date().getTime()
+            };
+            sessionStorage.setItem('userSession', JSON.stringify(sessionData));
             
             // Update UI
             updateAuthUI();
@@ -429,7 +677,7 @@
         }
 
         function logout() {
-            localStorage.removeItem('user');
+            sessionStorage.removeItem('userSession');
             updateAuthUI();
             // Redirect to homepage after logout
             window.location.href = 'index.html';
@@ -453,16 +701,16 @@
         }
 
         function updateAuthUI() {
-            const user = JSON.parse(localStorage.getItem('user'));
+            const session = JSON.parse(sessionStorage.getItem('userSession'));
             const authButtons = document.querySelector('.auth-buttons');
             const userMenu = document.querySelector('.user-menu');
             
-            if (user) {
+            if (session) {
                 authButtons.style.display = 'none';
                 userMenu.style.display = 'flex';
                 const userName = userMenu.querySelector('.user-name');
                 if (userName) {
-                    userName.textContent = user.name;
+                    userName.textContent = session.name;
                 }
             } else {
                 authButtons.style.display = 'flex';
@@ -477,13 +725,19 @@
 
         // Job application handler
         function handleJobApplication(jobTitle, company) {
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (!user) {
+            const session = JSON.parse(sessionStorage.getItem('userSession'));
+            if (!session) {
                 openModal('loginModal');
                 return;
             }
             
+            // Set job title in modal
             document.getElementById('jobTitle').textContent = `${jobTitle} - ${company}`;
+            
+            // Store job details for form submission
+            sessionStorage.setItem('currentApplication', JSON.stringify({ jobTitle, company }));
+            
+            // Open application modal
             openModal('applicationModal');
         }
 
@@ -492,12 +746,90 @@
             const form = event.target;
             const formData = new FormData(form);
             
-            // Burada form verilerini işleyebilirsiniz
-            console.log(Object.fromEntries(formData));
+            // Get stored job details
+            const currentApplication = JSON.parse(sessionStorage.getItem('currentApplication'));
             
-            alert('Başvurunuz başarıyla alındı! En kısa sürede size dönüş yapacağız.');
+            // Show success message
+            alert(`Başvurunuz alındı: ${currentApplication.jobTitle} - ${currentApplication.company}`);
+            
+            // Clear stored job details
+            sessionStorage.removeItem('currentApplication');
+            
+            // Close modal and reset form
             closeModal('applicationModal');
             form.reset();
+        }
+
+        function resetPassword(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const email = formData.get('email');
+            
+            // Get stored user data
+            const storedUser = JSON.parse(localStorage.getItem('registeredUser'));
+            
+            if (!storedUser || storedUser.email !== email) {
+                alert('Bu e-posta adresi ile kayıtlı bir hesap bulunamadı!');
+                return;
+            }
+            
+            // Generate a new random password
+            const newPassword = Math.random().toString(36).slice(-8);
+            
+            // Update user data with new password
+            storedUser.password = newPassword;
+            localStorage.setItem('registeredUser', JSON.stringify(storedUser));
+            
+            // Show the new password to user (in a real app, this would be sent via email)
+            alert(`Yeni şifreniz: ${newPassword}\n\nLütfen bu şifreyi not alın ve giriş yaptıktan sonra değiştirin.`);
+            
+            // Close modal and open login
+            closeModal('forgotPasswordModal');
+            openModal('loginModal');
+            form.reset();
+        }
+
+        // İş detaylarını gösterme fonksiyonu
+        function showJobDetails(title, company) {
+            const job = jobListings.find(j => j.title === title && j.company === company);
+            if (!job) return;
+
+            // İş detaylarını modal içinde göster
+            const modalContent = `
+                <h2>${job.title}</h2>
+                <h3>${job.company}</h3>
+                <div class="job-meta">
+                    <p><i class="fas fa-map-marker-alt"></i> ${job.location}</p>
+                    <p><i class="fas fa-briefcase"></i> ${job.experience}</p>
+                    <p><i class="fas fa-clock"></i> ${job.workType}</p>
+                    <p><i class="fas fa-money-bill"></i> ${job.salary}</p>
+                </div>
+                <div class="job-description">
+                    <h4>İş Tanımı</h4>
+                    <p>${job.description}</p>
+                </div>
+                <div class="job-requirements">
+                    <h4>Gereksinimler</h4>
+                    <ul>
+                        ${job.requirements.map(req => `<li>${req}</li>`).join('')}
+                    </ul>
+                </div>
+                <button onclick="handleJobApplication('${job.title}', '${job.company}')" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Başvur</button>
+            `;
+
+            // Modal içeriğini güncelle ve göster
+            const applicationModal = document.getElementById('applicationModal');
+            applicationModal.querySelector('.modal-content').innerHTML = `
+                <button class="modal-close" onclick="closeModal('applicationModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="modal-body">
+                    ${modalContent}
+                </div>
+            `;
+            
+            openModal('applicationModal');
         }
     </script>
 </body>

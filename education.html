@@ -142,6 +142,9 @@
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Giriş Yap</button>
             </form>
             <p style="text-align: center; margin-top: 1rem;">
+                <a href="#" onclick="openModal('forgotPasswordModal'); closeModal('loginModal')">Şifremi Unuttum</a>
+            </p>
+            <p style="text-align: center; margin-top: 1rem;">
                 Hesabınız yok mu? 
                 <a href="#" onclick="switchModal('loginModal', 'registerModal')">Üye Ol</a>
             </p>
@@ -180,6 +183,29 @@
             <p style="text-align: center; margin-top: 1rem;">
                 Zaten üye misiniz? 
                 <a href="#" onclick="switchModal('registerModal', 'loginModal')">Giriş Yap</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('forgotPasswordModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 class="modal-title">Şifremi Sıfırla</h2>
+                <p>Kayıtlı e-posta adresinizi girin</p>
+            </div>
+            <form id="forgotPasswordForm" onsubmit="resetPassword(event)">
+                <div class="form-group">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Şifremi Sıfırla</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                <a href="#" onclick="openModal('loginModal'); closeModal('forgotPasswordModal')">Giriş Yap</a>
             </p>
         </div>
     </div>
@@ -234,16 +260,96 @@
                 category: 'İş Yönetimi',
                 title: 'Proje Yönetimi Esasları',
                 instructor: {
-                    name: 'Ayşe Yıldız',
+                    name: 'Ayşe Kara',
                     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80'
                 },
                 rating: 4.6,
                 students: 1500,
                 duration: '20 saat',
                 level: 'Orta Seviye',
-                price: '649 TL'
+                price: '699 TL'
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80',
+                category: 'Yazılım Geliştirme',
+                title: 'Python ile Veri Bilimi',
+                instructor: {
+                    name: 'Can Yıldız',
+                    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80'
+                },
+                rating: 4.9,
+                students: 1800,
+                duration: '40 saat',
+                level: 'İleri Seviye',
+                price: '899 TL'
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1542744094-3a31f272c490?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80',
+                category: 'Kişisel Gelişim',
+                title: 'Etkili İletişim Teknikleri',
+                instructor: {
+                    name: 'Deniz Şahin',
+                    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80'
+                },
+                rating: 4.8,
+                students: 2200,
+                duration: '15 saat',
+                level: 'Başlangıç',
+                price: '399 TL'
             }
         ];
+
+        // Filtreleme fonksiyonu
+        function filterCourses(category) {
+            const filteredCourses = category === 'Tümü' ? courses : courses.filter(course => course.category === category);
+            const coursesGrid = document.getElementById('coursesGrid');
+            
+            coursesGrid.innerHTML = filteredCourses.map(course => `
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="${course.image}" alt="${course.title}">
+                        <span class="course-category">${course.category}</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">${course.title}</h3>
+                        <div class="course-instructor">
+                            <img src="${course.instructor.avatar}" alt="${course.instructor.name}" class="instructor-avatar">
+                            <span>${course.instructor.name}</span>
+                        </div>
+                        <div class="course-meta">
+                            <span><i class="fas fa-star"></i> ${course.rating}</span>
+                            <span><i class="fas fa-users"></i> ${course.students}</span>
+                            <span><i class="fas fa-clock"></i> ${course.duration}</span>
+                        </div>
+                        <div class="course-footer">
+                            <span class="course-level">${course.level}</span>
+                            <span class="course-price">${course.price}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Aktif kategori butonunu güncelle
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === category) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Kategori butonlarına tıklama olayı ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterCourses(this.textContent);
+                });
+            });
+
+            // Sayfa yüklendiğinde tüm kursları göster
+            filterCourses('Tümü');
+        });
 
         function loadCourses() {
             const coursesGrid = document.getElementById('coursesGrid');
@@ -288,16 +394,6 @@
             loadCourses();
         });
 
-        // Category buttons
-        const categoryButtons = document.querySelectorAll('.category-btn');
-        categoryButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                categoryButtons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                // TODO: Filter courses by category
-            });
-        });
-
         // Auth functions
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
@@ -321,16 +417,24 @@
             const form = event.target;
             const formData = new FormData(form);
             
-            // Simulate login
+            // Get stored user data
+            const storedUser = JSON.parse(localStorage.getItem('registeredUser'));
             const email = formData.get('email');
             const password = formData.get('password');
             
-            // Store user data in localStorage
-            const userData = {
+            // Check if user exists and password matches
+            if (!storedUser || storedUser.email !== email || storedUser.password !== password) {
+                alert('E-posta veya şifre hatalı!');
+                return;
+            }
+            
+            // Create session
+            const sessionData = {
                 email: email,
-                name: email.split('@')[0]
+                name: storedUser.name,
+                sessionStartTime: new Date().getTime()
             };
-            localStorage.setItem('user', JSON.stringify(userData));
+            sessionStorage.setItem('userSession', JSON.stringify(sessionData));
             
             // Update UI
             updateAuthUI();
@@ -344,16 +448,32 @@
             const form = event.target;
             const formData = new FormData(form);
             
-            // Simulate registration
             const email = formData.get('email');
             const fullName = formData.get('fullName');
+            const password = formData.get('password');
+            const passwordConfirm = formData.get('passwordConfirm');
             
-            // Store user data in localStorage
+            // Validate passwords match
+            if (password !== passwordConfirm) {
+                alert('Şifreler eşleşmiyor!');
+                return;
+            }
+            
+            // Store user data
             const userData = {
                 email: email,
-                name: fullName
+                name: fullName,
+                password: password // In a real app, this should be hashed
             };
-            localStorage.setItem('user', JSON.stringify(userData));
+            localStorage.setItem('registeredUser', JSON.stringify(userData));
+            
+            // Create session
+            const sessionData = {
+                email: email,
+                name: fullName,
+                sessionStartTime: new Date().getTime()
+            };
+            sessionStorage.setItem('userSession', JSON.stringify(sessionData));
             
             // Update UI
             updateAuthUI();
@@ -363,7 +483,7 @@
         }
 
         function logout() {
-            localStorage.removeItem('user');
+            sessionStorage.removeItem('userSession');
             updateAuthUI();
             // Redirect to homepage after logout
             window.location.href = 'index.html';
@@ -387,16 +507,16 @@
         }
 
         function updateAuthUI() {
-            const user = JSON.parse(localStorage.getItem('user'));
+            const session = JSON.parse(sessionStorage.getItem('userSession'));
             const authButtons = document.querySelector('.auth-buttons');
             const userMenu = document.querySelector('.user-menu');
             
-            if (user) {
+            if (session) {
                 authButtons.style.display = 'none';
                 userMenu.style.display = 'flex';
                 const userName = userMenu.querySelector('.user-name');
                 if (userName) {
-                    userName.textContent = user.name;
+                    userName.textContent = session.name;
                 }
             } else {
                 authButtons.style.display = 'flex';
@@ -408,6 +528,36 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateAuthUI();
         });
+
+        function resetPassword(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const email = formData.get('email');
+            
+            // Get stored user data
+            const storedUser = JSON.parse(localStorage.getItem('registeredUser'));
+            
+            if (!storedUser || storedUser.email !== email) {
+                alert('Bu e-posta adresi ile kayıtlı bir hesap bulunamadı!');
+                return;
+            }
+            
+            // Generate a new random password
+            const newPassword = Math.random().toString(36).slice(-8);
+            
+            // Update user data with new password
+            storedUser.password = newPassword;
+            localStorage.setItem('registeredUser', JSON.stringify(storedUser));
+            
+            // Show the new password to user (in a real app, this would be sent via email)
+            alert(`Yeni şifreniz: ${newPassword}\n\nLütfen bu şifreyi not alın ve giriş yaptıktan sonra değiştirin.`);
+            
+            // Close modal and open login
+            closeModal('forgotPasswordModal');
+            openModal('loginModal');
+            form.reset();
+        }
     </script>
 </body>
 </html> 
